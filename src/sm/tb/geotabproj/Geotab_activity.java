@@ -20,6 +20,7 @@ import android.view.WindowManager;
 @SuppressLint("SdCardPath")
 public class Geotab_activity extends MapActivity {
 	
+	
 	final static float scale = (float)2.0;
 	
 	//private MapView mapView;
@@ -57,9 +58,12 @@ public class Geotab_activity extends MapActivity {
         
         mapController = geoTabMapView.getController();
 		
+        //Porsman
         //mapController.setCenter(new GeoPoint(48.4426, -4.778));
+        //Toulouse
         mapController.setCenter(new GeoPoint(43.6037, 1.441779));
-		mapController.setZoom(14);
+		
+        mapController.setZoom(14);
        
 		geoTabMapView.setScaleX(scale);
 		geoTabMapView.setScaleY(scale);
