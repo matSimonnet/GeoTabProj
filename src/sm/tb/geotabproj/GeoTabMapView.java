@@ -20,6 +20,7 @@ import android.view.MotionEvent;
 
 public class GeoTabMapView extends MapView{
 	
+	//caution : treshold should be relative to the scale
 	final int SEUIL = 80;
 	String lastAnnounce = "";
 	MapDatabase mapDatabase;
