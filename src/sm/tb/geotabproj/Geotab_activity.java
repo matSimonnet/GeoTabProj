@@ -20,30 +20,33 @@ import android.view.WindowManager;
 @SuppressLint("SdCardPath")
 public class Geotab_activity extends MapActivity {
 	
+	private GeoTabMapView geoTabMapView;
+	private MapController mapController;
+
+	private TextToSpeech tts = null;
+		
+	private String folder = "map";
+	private String map = "porsman";
+	
 	//View Scale
 	static float viewScale = (float)2.0;
 	//Tile Scale
 	static int mapScale = 18;
 	
-	//private MapView mapView;
-	private GeoTabMapView geoTabMapView;
-	private MapController mapController;
-	private TextToSpeech tts = null;
-	
-	private String folder = "map";
-	private String map = "porsman";
-	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-    		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-    		requestWindowFeature(Window.FEATURE_NO_TITLE);
-    		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
-            
+    	// Set Full screen landscape
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+        
+        // Write raw ressources less than 1MB on the device SDCard
         MapSDWriter.write( getResources().openRawResource(R.raw.porsman), folder, map);
     	
+        // Init Text-to-Speech
         OnInitListener onInitListener = new OnInitListener() {
     		@Override
     		public void onInit(int status) {
@@ -51,22 +54,27 @@ public class Geotab_activity extends MapActivity {
     	};
     	tts = new TextToSpeech(this, onInitListener);
         
-        
-        //creates mapview
+        // Creates mapView instance
         geoTabMapView = new GeoTabMapView(this);
-        //geoTabMapView.setMapFile(new File(Environment.getExternalStorageDirectory().getPath()+ "/" + folder + "/" + map + ".map"));
-        geoTabMapView.setMapFile(new File(Environment.getExternalStorageDirectory().getPath()+ "/map/midi-pyrenees.map"));
-        //geoTabMapView.setMapFile(new File(Environment.getExternalStorageDirectory().getPath()+ "/map/bretagne.map"));
         
+        // Gives file to geoTabMapView
+//        geoTabMapView.setMapFile(new File(Environment.getExternalStorageDirectory().getPath()+ "/" + folder + "/" + map + ".map"));
+        geoTabMapView.setMapFile(new File(Environment.getExternalStorageDirectory().getPath()+ "/map/bretagne.map"));
+//        geoTabMapView.setMapFile(new File(Environment.getExternalStorageDirectory().getPath()+ "/map/midi-pyrenees.map"));
+
+        // Retrieve geoTabMapView mapController  
         mapController = geoTabMapView.getController();
 		
+        // Set mapCenter
         //Porsman
-        //mapController.setCenter(new GeoPoint(48.4426, -4.778));
+        mapController.setCenter(new GeoPoint(48.4426, -4.778));
         //Toulouse
-        mapController.setCenter(new GeoPoint(43.6037, 1.441779));
+//        mapController.setCenter(new GeoPoint(43.6037, 1.441779));
 		
+        // Set map scale
         mapController.setZoom(mapScale);
        
+        // Set view scale
 		geoTabMapView.setScaleX(viewScale);
 		geoTabMapView.setScaleY(viewScale);
 
