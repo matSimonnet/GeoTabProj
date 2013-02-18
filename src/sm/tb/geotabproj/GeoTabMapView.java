@@ -21,7 +21,7 @@ import android.view.MotionEvent;
 public class GeoTabMapView extends MapView{
 	
 	//caution : treshold should be relative to the scale
-	final int SEUIL = 80;
+	final int TRESHOLD = 80;
 	String lastAnnounce = "";
 	MapDatabase mapDatabase;
 	private GeoTabMapDatabaseCallback callback = null;
@@ -193,7 +193,7 @@ public class GeoTabMapView extends MapView{
 //			Log.i("Dist",""+tags.get(iT).key + " / "+ tags.get(iT).value);
 //		}
 		
-		if (distanceMin > (SEUIL/ Geotab_activity.scale))
+		if (distanceMin > (TRESHOLD/ Geotab_activity.scale))
 			poiNearest = null;
 		
 		return poiNearest;
