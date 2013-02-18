@@ -20,26 +20,19 @@ public class GeoTabMapDatabaseCallback implements MapDatabaseCallback{
 	@Override
 	public void renderPointOfInterest(byte arg0, int latitude, int longitude, List<Tag> tags) {
 		
-		
 		PointOfInterest poi = new PointOfInterest(latitude, longitude);
 		//Log.i("POSITIONS = ","Latitude = " + poi.getLatitude() + "// longitude = " + poi.getLongitude() );
 		
-		for (int i = 0; i < tags.size(); i++)
-		{
-				poi.addTag(tags.get(i).key, tags.get(i).value);
-				//Log.i("renderPointOfInterest", "key = " + tags.get(i).key.toString() + " // lat = " + tags.get(i).value.toString());
-				if (tags.get(i).key.equals("railway") && !tags.get(i).key.equals("station") )
-				{
+		for (int i = 0; i < tags.size(); i++)	{
+			poi.addTag(tags.get(i).key, tags.get(i).value);
+			//Log.i("renderPointOfInterest", "key = " + tags.get(i).key.toString() + " // lat = " + tags.get(i).value.toString());
+			//if (tags.get(i).key.equals("railway") && !tags.get(i).key.equals("station") ){
 				pois.add(poi);
 				for (int iP = 0; iP < pois.size(); iP++){
 					Log.i("pois" + i , pois.get(iP).getTags().toString() + "" );
 				}
-				
-				}
+			//}
 		}
-		
-		
-		
 	}
 
 	@Override

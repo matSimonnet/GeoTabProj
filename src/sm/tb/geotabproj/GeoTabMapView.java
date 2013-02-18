@@ -203,9 +203,7 @@ public class GeoTabMapView extends MapView{
 	// Fonction pour avoir la distance entre 2 points
 	public double Distance(double x1, double y1, double x2, double y2) {
 		double distance;
-		
 		distance = Math.sqrt( ((x2-x1) * (x2-x1)) + ((y2-y1) * (y2-y1)) );
-		
 		return distance;
 	}
 	
