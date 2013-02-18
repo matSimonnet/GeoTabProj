@@ -27,11 +27,10 @@ public class GeoTabMapView extends MapView{
 	private GeoTabMapDatabaseCallback callback = null;
 	public TextToSpeech tts = null; 
 	
-	
 	//View Scale
-	float viewScale = (float)2.0;
+	public float viewScale = (float)2.0;
 	//Tile Scale
-	int mapScale = 18;
+	public int mapScale = 18;
 	
 	public GeoTabMapView(Context context) {
 		super(context);	
