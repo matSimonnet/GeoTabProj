@@ -21,7 +21,7 @@ import android.view.MotionEvent;
 public class GeoTabMapView extends MapView{
 	
 	//caution : treshold should be relative to the scale
-	final int nodeRadiusTreshold = 120;
+	final int nodeRadiusTreshold = 80;
 	String lastAnnounce = "";
 	MapDatabase mapDatabase;
 	private GeoTabMapDatabaseCallback callback = null;
@@ -103,18 +103,13 @@ public class GeoTabMapView extends MapView{
 			nearestPOI = getNearestPOI(this.callback.pois , projection.fromPixels((int)event.getX(0), (int)event.getY(0)));		
 			
 			//>>>>>>>>>>>>>>>>>>>>>>>>> LE BON ALGO POUR LES ANNONCES
-			if (nearestPOI != null) 
-			{
+			if (nearestPOI != null) {
 				List<Tag> tags = nearestPOI.getTags();
-				for (int i = 0; i < tags.size(); i++)
-				{
-						if ( tags.get(i).key.equals("name") 
-								&& !lastAnnounce.equals(""+tags.get(i).value) 
-								&& !tts.isSpeaking() )
-						{
-							tts.speak(""+tags.get(i).value, TextToSpeech.QUEUE_FLUSH, null);
-							lastAnnounce = ""+tags.get(i).value;
-						}
+				for (int i = 0; i < tags.size(); i++){
+					if ( tags.get(i).key.equals("name") && !lastAnnounce.equals(""+tags.get(i).value)){ 
+						tts.speak(""+tags.get(i).value, TextToSpeech.QUEUE_FLUSH, null);
+						lastAnnounce = ""+tags.get(i).value;
+					}
 //					Log.i( "nearestPOI.getTags()" , "key = "+ tags.get(i).key + " ; value = " + tags.get(i).value);
 //					Toast.makeText(getContext(), "Key = "+ tags.get(i).key , Toast.LENGTH_SHORT).show() ; //+ " value = " + tags.get(i).value
 				}
