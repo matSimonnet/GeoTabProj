@@ -27,11 +27,7 @@ public class Geotab_activity extends MapActivity {
 		
 	private String folder = "map";
 	private String map = "porsman";
-	
-	//View Scale
-	static float viewScale = (float)2.0;
-	//Tile Scale
-	static int mapScale = 18;
+
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,8 +54,8 @@ public class Geotab_activity extends MapActivity {
         geoTabMapView = new GeoTabMapView(this);
         
         // Gives file to geoTabMapView
-//        geoTabMapView.setMapFile(new File(Environment.getExternalStorageDirectory().getPath()+ "/" + folder + "/" + map + ".map"));
-        geoTabMapView.setMapFile(new File(Environment.getExternalStorageDirectory().getPath()+ "/map/bretagne.map"));
+        geoTabMapView.setMapFile(new File(Environment.getExternalStorageDirectory().getPath()+ "/" + folder + "/" + map + ".map"));
+//        geoTabMapView.setMapFile(new File(Environment.getExternalStorageDirectory().getPath()+ "/map/bretagne.map"));
 //        geoTabMapView.setMapFile(new File(Environment.getExternalStorageDirectory().getPath()+ "/map/midi-pyrenees.map"));
 
         // Retrieve geoTabMapView mapController  
@@ -72,12 +68,12 @@ public class Geotab_activity extends MapActivity {
 //        mapController.setCenter(new GeoPoint(43.6037, 1.441779));
 		
         // Set map scale
-        mapController.setZoom(mapScale);
+        mapController.setZoom(geoTabMapView.mapScale);
+        
+	    // Set view scale
+        geoTabMapView.setScaleX(geoTabMapView.viewScale);
+        geoTabMapView.setScaleY(geoTabMapView.viewScale);
        
-        // Set view scale
-		geoTabMapView.setScaleX(viewScale);
-		geoTabMapView.setScaleY(viewScale);
-
         //Fill view;
         setContentView(geoTabMapView);
 		

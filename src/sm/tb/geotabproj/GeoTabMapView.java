@@ -21,11 +21,17 @@ import android.view.MotionEvent;
 public class GeoTabMapView extends MapView{
 	
 	//caution : treshold should be relative to the scale
-	final int nodeRadiusTreshold = 80;
+	final int nodeRadiusTreshold = 120;
 	String lastAnnounce = "";
 	MapDatabase mapDatabase;
 	private GeoTabMapDatabaseCallback callback = null;
 	public TextToSpeech tts = null; 
+	
+	
+	//View Scale
+	float viewScale = (float)2.0;
+	//Tile Scale
+	int mapScale = 18;
 	
 	public GeoTabMapView(Context context) {
 		super(context);	
@@ -40,6 +46,7 @@ public class GeoTabMapView extends MapView{
 		tts = new TextToSpeech(getContext(), onInitListener);
 	}
 	
+
 	@Override
 	public boolean onTouchEvent (MotionEvent event){
 		super.onTouchEvent(event);
@@ -50,9 +57,9 @@ public class GeoTabMapView extends MapView{
 		case MotionEvent.ACTION_DOWN:
 //			Log.i("action", "MotionEvent.ACTION_DOWN");
 			Projection projection = this.getProjection();
-			long tileY = MercatorProjection.latitudeToTileY( projection.fromPixels((int)event.getX(0), (int)event.getY(0)).getLatitude(), (byte) Geotab_activity.mapScale);
-			long tileX = MercatorProjection.longitudeToTileX( projection.fromPixels((int)event.getX(0), (int)event.getY(0)).getLongitude(), (byte) Geotab_activity.mapScale);
-			Tile tile = new Tile(tileX, tileY, (byte) Geotab_activity.mapScale);
+			long tileY = MercatorProjection.latitudeToTileY( projection.fromPixels((int)event.getX(0), (int)event.getY(0)).getLatitude(), (byte) mapScale);
+			long tileX = MercatorProjection.longitudeToTileX( projection.fromPixels((int)event.getX(0), (int)event.getY(0)).getLongitude(), (byte) mapScale);
+			Tile tile = new Tile(tileX, tileY, (byte) mapScale);
 			this.mapDatabase.executeQuery(tile, this.callback);
 			PointOfInterest nearestPOI = getNearestPOI(this.callback.pois , projection.fromPixels((int)event.getX(0), (int)event.getY(0)));		
 			if (nearestPOI != null) 
@@ -88,9 +95,9 @@ public class GeoTabMapView extends MapView{
 		case MotionEvent.ACTION_MOVE:
 //			Log.i("action", "MotionEvent.ACTION_MOVE");
 			projection = this.getProjection();
-			tileY = MercatorProjection.latitudeToTileY( projection.fromPixels((int)event.getX(0), (int)event.getY(0)).getLatitude(), (byte) Geotab_activity.mapScale);
-			tileX = MercatorProjection.longitudeToTileX( projection.fromPixels((int)event.getX(0), (int)event.getY(0)).getLongitude(), (byte) Geotab_activity.mapScale);
-			tile = new Tile(tileX, tileY, (byte) Geotab_activity.mapScale);
+			tileY = MercatorProjection.latitudeToTileY( projection.fromPixels((int)event.getX(0), (int)event.getY(0)).getLatitude(), (byte) mapScale);
+			tileX = MercatorProjection.longitudeToTileX( projection.fromPixels((int)event.getX(0), (int)event.getY(0)).getLongitude(), (byte) mapScale);
+			tile = new Tile(tileX, tileY, (byte) mapScale);
 			this.mapDatabase.executeQuery(tile, this.callback);
 			Log.i("getNearestPOI", "this.callback.pois.size = " + this.callback.pois.size());
 			nearestPOI = getNearestPOI(this.callback.pois , projection.fromPixels((int)event.getX(0), (int)event.getY(0)));		
@@ -193,7 +200,7 @@ public class GeoTabMapView extends MapView{
 //			Log.i("Dist",""+tags.get(iT).key + " / "+ tags.get(iT).value);
 //		}
 		
-		if (distanceMin > (nodeRadiusTreshold/ Geotab_activity.viewScale))
+		if (distanceMin > (nodeRadiusTreshold/viewScale))
 			poiNearest = null;
 		
 		return poiNearest;
